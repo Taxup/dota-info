@@ -25,12 +25,12 @@ Multi-module demo app that gets data from a Dota2 api.
 
 ### Unit Tests
 I wrote unit tests for every use-case.
-1. [GetHerosTest.kt](hero/hero-interactors/src/test/java/com/codingwithmitch/dotainfo/hero_interactors/GetHerosTest.kt)
-1. [GetHeroFromCacheTest.kt](hero/hero-interactors/src/test/java/com/codingwithmitch/dotainfo/hero_interactors/GetHeroFromCacheTest.kt)
-1. [FilterHerosTest.kt](hero/hero-interactors/src/test/java/com/codingwithmitch/dotainfo/hero_interactors/FilterHerosTest.kt)
+1. [GetHerosTest.kt](hero/hero-interactors/src/test/java/kz/app/dotainfo/hero_interactors/GetHerosTest.kt)
+1. [GetHeroFromCacheTest.kt](hero/hero-interactors/src/test/java/kz/app/dotainfo/hero_interactors/GetHeroFromCacheTest.kt)
+1. [FilterHerosTest.kt](hero/hero-interactors/src/test/java/kz/app/dotainfo/hero_interactors/FilterHerosTest.kt)
 
 ### Compose UI Tests
-[UI Tests](/app/src/androidTest/java/com/codingwithmitch/dotainfo/ui)
+[UI Tests](/app/src/androidTest/java/kz/app/dotainfo/ui)
 
 # build.gradle files
 There are 3 types of build.gradle files.
@@ -47,12 +47,14 @@ https://docs.opendota.com/
 https://api.opendota.com/api/heroStats
 
 # Known issues
-1. [HeroListFilter.kt](ui-heroList/src/main/java/com/codingwithmitch/ui_herolist/components/HeroListFilter.kt)
+1. [HeroListFilter.kt](ui-heroList/src/main/java/kz/app/ui_herolist/components/HeroListFilter.kt)
     - Changing the filter does not rebuild the dialog with the correct size.
 
 # Credits
 1. [Hristijan](https://twitter.com/funky_muse)
     - Thanks for the chat and great [sample](https://github.com/FunkyMuse/Aurora).
+2. [Mitch](https://github.com/mitchtabian)
+    - Thanks for the course and great [original](https://github.com/mitchtabian/Dota-Info).
 
 
 
