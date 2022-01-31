@@ -5,6 +5,7 @@ apply {
 dependencies {
     "implementation"(project(Modules.heroInteractors))
     "implementation"(project(Modules.core))
+    "implementation"(project(Modules.components))
     "implementation"(project(Modules.heroDomain))
 
     "implementation"(Coil.coil)

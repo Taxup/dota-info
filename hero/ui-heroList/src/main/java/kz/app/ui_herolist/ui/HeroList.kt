@@ -1,18 +1,13 @@
 package kz.app.ui_herolist.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import coil.ImageLoader
-import kz.app.core.domain.ProgressBarState
+import kz.app.components.DefaultScreenUI
 import kz.app.core.domain.UIComponentState
 import kz.app.hero_domain.Hero
 import kz.app.ui_herolist.component.HeroListFilter
@@ -28,7 +23,9 @@ fun HeroList(
     events: (HeroListEvent) -> Unit,
     onSelectHero: (Int) -> Unit,
 ) {
-    Box(Modifier.fillMaxSize()) {
+    DefaultScreenUI(
+        progressBarState = state.progressBarState
+    ) {
         Column {
             HeroListToolbar(
                 heroName = state.heroName,
@@ -66,11 +63,6 @@ fun HeroList(
                 onCloseDialog = {
                     events.invoke(HeroListEvent.UpdateFilterDialogState(UIComponentState.Hide))
                 }
-            )
-        }
-        if (state.progressBarState == ProgressBarState.Loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(alignment = Alignment.Center)
             )
         }
     }
