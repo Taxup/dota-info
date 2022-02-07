@@ -8,6 +8,7 @@ import kz.app.core.domain.UIComponent
 import kz.app.hero_datasource.cache.HeroCache
 import kz.app.hero_datasource.network.HeroService
 import kz.app.hero_domain.Hero
+import kotlin.math.E
 
 class GetHeros(
     private val service: HeroService,

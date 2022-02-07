@@ -7,11 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kz.app.core.domain.DataState
-import kz.app.core.domain.Logger
-import kz.app.core.domain.UIComponent
-import kz.app.core.domain.UIComponentState
-import kz.app.hero_domain.Hero
+import kz.app.core.domain.*
 import kz.app.hero_domain.HeroAttribute
 import kz.app.hero_domain.HeroFilter
 import kz.app.hero_interactors.FilterHeros
@@ -40,6 +36,18 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvent.UpdateHeroFilter -> updateHeroFilter(event.heroFilter)
             is HeroListEvent.UpdateFilterDialogState -> updateFilterDialogState(event.uiComponentState)
             is HeroListEvent.UpdateAttributeFilter -> updateAttributeFilter(event.attribute)
+            HeroListEvent.OnRemoveHeadFromQueue -> removeHeadMessage()
+        }
+    }
+
+    private fun removeHeadMessage() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy(errorQueue = Queue())
+            state.value = state.value.copy(errorQueue = queue)
+        } catch (e: Exception) {
+            logger.log(e.message.toString())
         }
     }
 
@@ -81,13 +89,20 @@ class HeroListViewModel @Inject constructor(
                 is DataState.Loading -> state.value = state.value.copy(progressBarState = dataState.progressBarState)
                 is DataState.Response -> {
                     when (dataState.uiComponent) {
-                        is UIComponent.Dialog -> logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                        is UIComponent.Dialog -> appendToMessageQueue(dataState.uiComponent)
                         is UIComponent.None -> logger.log((dataState.uiComponent as UIComponent.None).message)
                     }
                 }
             }
         }.launchIn(viewModelScope)
 
+    }
+
+    private fun appendToMessageQueue(uiComponent: UIComponent) {
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy(errorQueue = Queue())
+        state.value = state.value.copy(errorQueue = queue)
     }
 
 }

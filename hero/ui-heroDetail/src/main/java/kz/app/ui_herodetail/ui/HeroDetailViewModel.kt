@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kz.app.core.domain.DataState
 import kz.app.core.domain.Logger
+import kz.app.core.domain.Queue
 import kz.app.core.domain.UIComponent
 import kz.app.hero_interactors.GetHeroFromCache
 import javax.inject.Inject
@@ -33,6 +34,17 @@ class HeroDetailViewModel @Inject constructor(
     fun onTriggerEvent(event: HeroDetailEvent) {
         when (event) {
             is HeroDetailEvent.GetHeroFromCache -> getHeroFromCache(event.id)
+            HeroDetailEvent.OnRemoveHeadFromQueue -> removeHeadMessage()
+        }
+    }
+
+    private fun removeHeadMessage() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy(errorQueue = queue)
+        } catch (e: RuntimeException) {
+            logger.log(e.message.toString())
         }
     }
 
@@ -47,11 +59,18 @@ class HeroDetailViewModel @Inject constructor(
                 }
                 is DataState.Response -> {
                     when (dataState.uiComponent) {
-                        is UIComponent.Dialog -> logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                        is UIComponent.Dialog -> appendToMessageQueue(dataState.uiComponent)
                         is UIComponent.None -> logger.log((dataState.uiComponent as UIComponent.None).message)
                     }
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun appendToMessageQueue(uiComponent: UIComponent) {
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy(errorQueue = Queue())//force compose
+        state.value = state.value.copy(errorQueue = queue)
     }
 }

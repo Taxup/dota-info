@@ -1,6 +1,8 @@
 package kz.app.ui_herolist.ui
 
 import kz.app.core.domain.ProgressBarState
+import kz.app.core.domain.Queue
+import kz.app.core.domain.UIComponent
 import kz.app.core.domain.UIComponentState
 import kz.app.hero_domain.Hero
 import kz.app.hero_domain.HeroAttribute
@@ -13,5 +15,6 @@ data class HeroListState(
     val heroName: String = "",
     val heroFilter: HeroFilter = HeroFilter.Hero(),
     val primaryAttribute: HeroAttribute = HeroAttribute.Unknown,
-    val filterDialogState: UIComponentState = UIComponentState.Hide
+    val filterDialogState: UIComponentState = UIComponentState.Hide,
+    val errorQueue: Queue<UIComponent> = Queue()
 )

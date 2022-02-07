@@ -24,7 +24,11 @@ fun HeroList(
     onSelectHero: (Int) -> Unit,
 ) {
     DefaultScreenUI(
-        progressBarState = state.progressBarState
+        queue = state.errorQueue,
+        progressBarState = state.progressBarState,
+        onRemoveHeadFromQueue = {
+            events.invoke(HeroListEvent.OnRemoveHeadFromQueue)
+        }
     ) {
         Column {
             HeroListToolbar(
@@ -67,3 +71,4 @@ fun HeroList(
         }
     }
 }
+
